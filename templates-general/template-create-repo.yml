@@ -14,6 +14,7 @@ steps:
     scriptType: 'pscore'
     scriptLocation: inlineScript
     inlineScript: |
+        az devops login --organization $(ado_org)
         # Ensure the Azure Devops extension is installed
         az extension add --name azure-devops
         # Create new repo
