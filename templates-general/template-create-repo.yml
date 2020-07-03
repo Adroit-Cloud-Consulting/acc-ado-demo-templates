@@ -8,16 +8,25 @@ parameters:
 
 steps:
 # Create Azure Repo
-- task: AzureCLI@2
-  displayName: 'Create Git Repository'
-  inputs:
-    scriptType: 'pscore'
-    scriptLocation: inlineScript
-    inlineScript: |
-        az devops login --organization $(ado_org)
-        # Ensure the Azure Devops extension is installed
-        az extension add --name azure-devops
-        # Create new repo
-        az repos create --name $(repo_name) --org $(ado_org) --project $(ado_project)
+# - task: AzureCLI@2
+#   displayName: 'Create Git Repository'
+#   inputs:
+#     scriptType: 'pscore'
+#     scriptLocation: inlineScript
+#     inlineScript: |
+#         az devops login --organization $(ado_org)
+#         # Ensure the Azure Devops extension is installed
+#         az extension add --name azure-devops
+#         # Create new repo
+#         az repos create --name $(repo_name) --org $(ado_org) --project $(ado_project)
+#   env:
+#     AZURE_DEVOPS_EXT_PAT: $(pat_token)
+
+- pwsh: |
+    az devops login --organization $(ado_org)
+    # Ensure the Azure Devops extension is installed
+    az extension add --name azure-devops
+    # Create new repo
+    az repos create --name $(repo_name) --org $(ado_org) --project $(ado_project)
   env:
     AZURE_DEVOPS_EXT_PAT: $(pat_token)
