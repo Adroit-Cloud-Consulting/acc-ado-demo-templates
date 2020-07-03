@@ -11,7 +11,7 @@ steps:
 - task: AzureCLI@2
   displayName: 'Create Git Repository'
   inputs:
-    scriptType: 'ps'
+    scriptType: 'pscore'
     scriptLocation: inlineScript
     inlineScript: |
         # Ensure the Azure Devops extension is installed
