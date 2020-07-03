@@ -1,0 +1,22 @@
+# File: template-create-repo.yml
+
+parameters:
+  subscription: ''
+  repo_name: ''
+  ado_org: ''
+  project: ''
+
+
+steps:
+# Create Azure Repo
+- task: AzureCLI@2
+  displayName: 'Create Git Repository'
+  inputs:
+    azureSubscription: $(subscription)
+    scriptType: 'ps'
+    scriptLocation: inlineScript
+    inlineScript: |
+        # Ensure the Azure Devops extension is installed
+        az extension add --name azure-devops
+        # Create new repo
+        az repos create --name $(repo_name) --org $(ado_org) --project $(ado_project)

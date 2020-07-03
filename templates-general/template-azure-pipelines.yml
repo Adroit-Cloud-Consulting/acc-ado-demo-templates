@@ -1,0 +1,24 @@
+# File: template-azure-pipelines.yml
+
+parameters:
+  subscription: ''
+  repo_name: ''
+  ado_org: ''
+  project: ''
+
+
+steps:
+# Create Azure Pipeline
+- task: AzureCLI@2
+  displayName: "Create Pipeline"
+  inputs:
+    azureSubscription: $(subscription)
+    scriptType: 'ps'
+    scriptLocation: inlineScript
+    inlineScript: |
+        # Ensure the Azure Devops extension is installed
+        az extension add --name azure-devops
+        
+        # Create Pipeline
+        az pipelines create --name "$(repo_name)-pipeline" --org $(ado_org) --project $(ado_project) `
+        --yml-path azure-pipeline.yml --repository $(repo_name) --repository-type tfsgit --branch master | out-null
