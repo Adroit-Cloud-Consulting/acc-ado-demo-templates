@@ -19,11 +19,11 @@ steps:
         $checkExtension = (az extension list-available --query "[? name=='azure-devops']" | ConvertFrom-Json)
 
         if (!($checkExtension)) {
-            Write-Host "Azure Devops Extension Not Installed... Installing"
+            Write-Host "##[warning] Azure Devops Extension Not Installed... Installing"
             az extension add --name azure-devops
         } 
         else {
-            Write-Host "Azure Devops Extension: $($checkExtension.version) already installed"
+            Write-Host "##[section] Azure Devops Extension: $($checkExtension.version) already installed"
         }
         
         # Create new repo
