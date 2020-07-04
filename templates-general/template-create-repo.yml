@@ -16,17 +16,17 @@ steps:
     scriptType: 'pscore'
     scriptLocation: inlineScript
     inlineScript: |
-        $checkExtension = (az extension list-available --query "[? name=='azure-devops']" | ConvertFrom-Json)
+    
+        # Check and create new repo
+        $repoCheck = (az repos show -r $(repo_name) --org $(ado_org) --project $(ado_project) | ConvertFrom-Json)
 
-        if (!($checkExtension)) {
-            Write-Host "##[warning] Azure Devops Extension Not Installed... Installing"
-            az extension add --name azure-devops
-        } 
-        else {
-            Write-Host "##[section] Azure Devops Extension: $($checkExtension.version) already installed"
+        if (!($repoCheck)) {
+            Write-Host "##[warning]$repo_name doesnt exist creating..."
+            az repos create --name $(repo_name) --org $(ado_org) --project $(ado_project)
         }
-        
-        # Create new repo
-        az repos create --name $(repo_name) --org $(ado_org) --project $(ado_project)
+        else {
+            Write-Host "##[section]$repo_name already exists!"
+        }
+
   env:
     AZURE_DEVOPS_EXT_PAT: $(pat_token)
