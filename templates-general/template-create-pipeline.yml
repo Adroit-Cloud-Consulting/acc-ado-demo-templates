@@ -17,7 +17,17 @@ steps:
     scriptLocation: inlineScript
     inlineScript: |
         # Create Pipeline
-        az pipelines create --name "$(repo_name)-pipeline" --org $(ado_org) --project $(ado_project) `
-        --repository $(repo_name) --description "$(repo_name)-Pipeline" --repository-type tfsgit --branch master | out-null
+        $pipelineCheck = az pipelines list --org $ado_org --project $ado_project --query "[?name=='$repo_name-pipeline']" -o json | ConvertFrom-Json
+
+        if (!($pipelineCheck)) {
+            Write-Host "##[warning]$(repo_name)-pipeline doesnt exist creating..."
+            az pipelines create --name "$(repo_name)-pipeline" --org $(ado_org) --project $(ado_project) --yml-path azure-pipeline.yml `
+            --repository $(repo_name) --repository-type tfsgit --branch master --skip-first-run
+        }
+        else {
+            Write-Host "##[section]$(repo_name)-pipline already exists!"
+        }
+
+
   env:
     AZURE_DEVOPS_EXT_PAT: $(pat_token)
