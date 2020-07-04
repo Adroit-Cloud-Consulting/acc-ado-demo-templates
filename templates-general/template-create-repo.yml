@@ -1,6 +1,7 @@
 # File: template-create-repo.yml
 
 parameters:
+  subscription: ''
   repo_name: ''
   ado_org: ''
   project: ''
@@ -11,6 +12,7 @@ steps:
 - task: AzureCLI@2
   displayName: 'Create Git Repository'
   inputs:
+    azureSubscription: $(subscription)
     scriptType: 'pscore'
     scriptLocation: inlineScript
     inlineScript: |
