@@ -20,23 +20,23 @@ steps:
 
         # Apply branch policy to repo requiring a minimum of 2 approvers
         az repos policy approver-count create --branch master --enabled true --repository-id $repoId --minimum-approver-count 2 `
-        --blocking true --creator-vote-counts false --allow-downvotes false --reset-on-source-push false --project $(ado_project) --verbose | out-null
+        --blocking true --creator-vote-counts false --allow-downvotes false --reset-on-source-push false --project $(ado_project) --org $(ado_org) --verbose | out-null
 
         # Ensure a linked work item is included
-        az repos policy work-item-linking create --branch master --enabled true --repository-id $repoId --blocking true --project $(ado_project) --verbose  | out-null
+        az repos policy work-item-linking create --branch master --enabled true --repository-id $repoId --blocking true --project $(ado_project) --org $(ado_org) --verbose  | out-null
 
         # Make sure all comments are resolved
-        az repos policy comment-required create --branch master --enabled true --repository-id $repoId --blocking true --project $(ado_project) --verbose  | out-null
+        az repos policy comment-required create --branch master --enabled true --repository-id $repoId --blocking true --project $(ado_project) --org $(ado_org) --verbose  | out-null
 
         # Set merge types
         az repos policy merge-strategy create --branch master --enabled true --repository-id $repoId --blocking true `
-        --allow-no-fast-forward true --allow-rebase true --allow-rebase-merge true --allow-squash true --project $(ado_project) --verbose  | out-null
+        --allow-no-fast-forward true --allow-rebase true --allow-rebase-merge true --allow-squash true --project $(ado_project) --org $(ado_org) --verbose  | out-null
 
         # Build branch policy
-        $pipelineId = az pipelines show --name $(repo_name)-pipeline --org $(ado_org) --project $(ado_project) --query "id" -o tsv
+        $pipelineId = az pipelines show --name $(repo_name)-pipeline --org $(ado_org) --project $(ado_project) --org $(ado_org) --query "id" -o tsv
 
         az repos policy build create --branch master --build-definition-id $pipelineId --blocking true --manual-queue-only false `
         --queue-on-source-update-only true --valid-duration 720 --repository-id $repoId --enabled --project $(ado_project) `
-        --display-name "$(repo_name)-policy" --verbose | out-null
+        --display-name "$(repo_name)-policy" --org $(ado_org) --verbose | out-null
   env:
     AZURE_DEVOPS_EXT_PAT: $(pat_token)
