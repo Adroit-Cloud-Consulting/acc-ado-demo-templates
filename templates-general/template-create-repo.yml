@@ -25,7 +25,7 @@ steps:
             az repos create --name $(repo_name) --org $(ado_org) --project $(ado_project)
         }
         else {
-            Write-Host "##[section]$repo_name already exists!"
+            Write-Host "##[section]Repository: $(repo_name) already exists!"
         }
 
   env:

@@ -13,7 +13,7 @@ steps:
   displayName: "Apply Branch Security Policies"
   inputs:
     azureSubscription: $(subscription)
-    scriptType: 'ps'
+    scriptType: 'pscore'
     scriptLocation: inlineScript
     inlineScript: |
         $repoId = az repos show --repository $(repo_name) --org $(ado_org) --project $(ado_project) --query "id" -o tsv

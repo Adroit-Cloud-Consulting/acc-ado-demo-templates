@@ -13,7 +13,7 @@ steps:
   displayName: "Create Pipeline"
   inputs:
     azureSubscription: $(subscription)
-    scriptType: 'ps'
+    scriptType: 'pscore'
     scriptLocation: inlineScript
     inlineScript: |
         # Create Pipeline
