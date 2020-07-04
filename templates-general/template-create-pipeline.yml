@@ -16,9 +16,6 @@ steps:
     scriptType: 'ps'
     scriptLocation: inlineScript
     inlineScript: |
-        # Ensure the Azure Devops extension is installed
-        az extension add --name azure-devops
-        
         # Create Pipeline
         az pipelines create --name "$(repo_name)-pipeline" --org $(ado_org) --project $(ado_project) `
         --yml-path azure-pipeline.yml --repository $(repo_name) --repository-type tfsgit --branch master | out-null

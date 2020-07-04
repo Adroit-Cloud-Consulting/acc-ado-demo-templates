@@ -12,13 +12,10 @@ steps:
 - task: AzureCLI@2
   displayName: "Apply Branch Security Policies"
   inputs:
-    azureSubscription: $(your_azure_subscription_id)
+    azureSubscription: $(subscription)
     scriptType: 'ps'
     scriptLocation: inlineScript
     inlineScript: |
-        # Ensure the Azure Devops extension is installed
-        az extension add --name azure-devops
-
         $repoId = az repos show --repository $(repo_name) --org $(ado_org) --project $(ado_project) --query "id" -o tsv
 
         # Apply branch policy to repo requiring a minimum of 2 approvers
