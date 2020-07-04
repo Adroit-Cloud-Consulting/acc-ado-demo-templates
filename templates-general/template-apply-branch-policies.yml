@@ -37,3 +37,5 @@ steps:
         az repos policy build create --branch master --build-definition-id $pipelineId --blocking true --manual-queue-only false `
         --queue-on-source-update-only true --valid-duration 720 --repository-id $repoId --enabled --project $(ado_project) `
         --display-name "$repo_name-policy" | out-null
+  env:
+    AZURE_DEVOPS_EXT_PAT: $(pat_token)

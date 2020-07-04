@@ -19,3 +19,5 @@ steps:
         # Create Pipeline
         az pipelines create --name "$(repo_name)-pipeline" --org $(ado_org) --project $(ado_project) `
         --yml-path azure-pipeline.yml --repository $(repo_name) --repository-type tfsgit --branch master | out-null
+  env:
+    AZURE_DEVOPS_EXT_PAT: $(pat_token)

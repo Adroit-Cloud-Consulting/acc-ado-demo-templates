@@ -27,6 +27,5 @@ steps:
         else {
             Write-Host "##[section]Repository: $(repo_name) already exists!"
         }
-
   env:
     AZURE_DEVOPS_EXT_PAT: $(pat_token)
