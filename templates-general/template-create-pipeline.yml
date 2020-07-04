@@ -17,7 +17,7 @@ steps:
     scriptLocation: inlineScript
     inlineScript: |
         # Create Pipeline
-        $pipelineCheck = az pipelines list --org $ado_org --project $ado_project --query "[?name=='$repo_name-pipeline']" -o json | ConvertFrom-Json
+        $pipelineCheck = az pipelines list --org $(ado_org) --project $(ado_project) --query "[?name=='$(repo_name)-pipeline']" -o json | ConvertFrom-Json
 
         if (!($pipelineCheck)) {
             Write-Host "##[warning]$(repo_name)-pipeline doesnt exist creating..."
