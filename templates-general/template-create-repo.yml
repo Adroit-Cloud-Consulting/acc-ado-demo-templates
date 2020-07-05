@@ -1,3 +1,4 @@
+# Adroit Cloud Consulting
 # File: template-create-repo.yml
 
 parameters:
@@ -16,12 +17,11 @@ steps:
     scriptType: 'pscore'
     scriptLocation: inlineScript
     inlineScript: |
-    
         # Check and create new repo
         $repoCheck = (az repos show -r $(repo_name) --org $(ado_org) --project $(ado_project) | ConvertFrom-Json)
 
         if (!($repoCheck)) {
-            Write-Host "##[warning]$repo_name doesnt exist creating..."
+            Write-Host "##[warning]$(repo_name) doesnt exist creating..."
             az repos create --name $(repo_name) --org $(ado_org) --project $(ado_project)
         }
         else {

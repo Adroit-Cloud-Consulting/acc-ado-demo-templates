@@ -1,4 +1,5 @@
-# File: template-azure-pipelines.yml
+# Adroit Cloud Consulting
+# File: template-create-pipeline.yml
 
 parameters:
   subscription: ''
@@ -20,14 +21,12 @@ steps:
         $pipelineCheck = az pipelines list --org $(ado_org) --project $(ado_project) --query "[?name=='$(repo_name)-pipeline']" -o json | ConvertFrom-Json
 
         if (!($pipelineCheck)) {
-            Write-Host "##[warning]$(repo_name)-pipeline doesnt exist creating..."
+            Write-Host "##[warning]Pipeline: $(repo_name)-pipeline doesnt exist creating..."
             az pipelines create --name "$(repo_name)-pipeline" --org $(ado_org) --project $(ado_project) --yml-path azure-pipeline.yml `
             --repository $(repo_name) --repository-type tfsgit --branch master --skip-first-run
         }
         else {
-            Write-Host "##[section]$(repo_name)-pipline already exists!"
+            Write-Host "##[section]Pipeline: $(repo_name)-pipline already exists!"
         }
-
-
   env:
     AZURE_DEVOPS_EXT_PAT: $(pat_token)
